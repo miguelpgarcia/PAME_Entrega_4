@@ -4,14 +4,12 @@ from app.extensions import db
 from flask.views import MethodView 
 
 
+
+
 class FuncionariosCreate (MethodView):
     def get(self):
         funcionario=Funcionario.query.all()
         return jsonify([funcionario.json() for funcionario in funcionario]), 200
-
-
-
-
 
 
     def post(self):
@@ -41,14 +39,16 @@ class FuncionariosDetails(MethodView):
         dados = request.json
 
         nome = dados.get('nome')
+        email = dados.get ('email')
         cpf = dados.get ('cpf')
         idade = dados.get ('idade')
-        email = dados.get ('email')
+       
 
         funcionario.nome = nome
-        funcionario.cpf = cpf
         funcionario.email = email
+        funcionario.cpf = cpf
         funcionario.idade = idade
+
 
         db.session.commit()
 
@@ -59,13 +59,14 @@ class FuncionariosDetails(MethodView):
         dados = request.json
 
         nome = dados.get('nome', funcionario.nome)
+        email = dados.get ('email', funcionario.email)
         cpf = dados.get ('cpf', funcionario.cpf)
         idade = dados.get ('idade', funcionario.idade)
-        email = dados.get ('email', funcionario.email)
+        
 
         funcionario.nome = nome
-        funcionario.cpf = cpf
         funcionario.email = email
+        funcionario.cpf = cpf
         funcionario.idade = idade
 
         db.session.commit()
