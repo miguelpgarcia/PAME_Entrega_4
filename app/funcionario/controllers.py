@@ -1,4 +1,4 @@
-from app.funcionario.model import Funcionario
+from app.presença.model import Funcionario
 from flask import request, jsonify
 from app.extensions import db
 from flask.views import MethodView 
@@ -13,7 +13,7 @@ class FuncionariosCreate (MethodView):
 
 
     def post(self):
-        dados = request.json
+        dados = request.json 
         nome = dados.get('nome')
         cpf = dados.get ('cpf')
         idade = dados.get ('idade')
@@ -23,7 +23,7 @@ class FuncionariosCreate (MethodView):
             return {'error':'tipo invalido'}
 
 
-        funcionario = Funcionario(nome, cpf, idade, email)
+        funcionario = Funcionario(nome=nome, cpf=cpf, idade=idade, email=email)
         db.session.add (funcionario)
         db.session.commit()
 
@@ -31,7 +31,8 @@ class FuncionariosCreate (MethodView):
 
 class FuncionariosDetails(MethodView):
     def get(self, id):
-        funcionario=Funcionario.query.get_or_404(id)
+        funcionario = Funcionario.query.get_or_404(id)
+        
         return funcionario.json(), 200
 
     def put(self, id):
