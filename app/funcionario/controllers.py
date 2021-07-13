@@ -1,0 +1,82 @@
+from app.funcionario.model import Funcionario
+from flask import request, jsonify
+from app.extensions import db
+from flask.views import MethodView 
+
+
+class FuncionariosCreate (MethodView):
+    def get(self):
+        funcionario=Funcionario.query.all()
+        return jsonify([funcionario.json() for funcionario in funcionario]), 200
+
+
+
+
+
+
+    def post(self):
+        dados = request.json
+        nome = dados.get('nome')
+        cpf = dados.get ('cpf')
+        idade = dados.get ('idade')
+        email = dados.get ('email')
+
+        if not isinstance (nome,str):
+            return {'error':'tipo invalido'}
+
+
+        funcionario = Funcionario(nome, cpf, idade, email)
+        db.session.add (funcionario)
+        db.session.commit()
+
+        return funcionario.json(), 200
+
+class FuncionariosDetails(MethodView):
+    def get(self, id):
+        funcionario=Funcionario.query.get_or_404(id)
+        return funcionario.json(), 200
+
+    def put(self, id):
+        funcionario=Funcionario.query.get_or_404(id)
+        dados = request.json
+
+        nome = dados.get('nome')
+        cpf = dados.get ('cpf')
+        idade = dados.get ('idade')
+        email = dados.get ('email')
+
+        funcionario.nome = nome
+        funcionario.cpf = cpf
+        funcionario.email = email
+        funcionario.idade = idade
+
+        db.session.commit()
+
+        return funcionario.json(), 200
+
+    def patch(self, id):
+        funcionario=Funcionario.query.get_or_404(id)
+        dados = request.json
+
+        nome = dados.get('nome', funcionario.nome)
+        cpf = dados.get ('cpf', funcionario.cpf)
+        idade = dados.get ('idade', funcionario.idade)
+        email = dados.get ('email', funcionario.email)
+
+        funcionario.nome = nome
+        funcionario.cpf = cpf
+        funcionario.email = email
+        funcionario.idade = idade
+
+        db.session.commit()
+
+        return funcionario.json(), 200
+    
+    def delete(self, id):
+        funcionario=Funcionario.query.get_or_404(id)
+        db.session.delete(funcionario)
+        db.session.commit()
+        return funcionario.json(), 200
+
+
+
