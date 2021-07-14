@@ -22,7 +22,7 @@ class PresencaCreate (MethodView):
             return {'error':'tipo invalido'}
 
 
-        presenca = Presenca(dia, horario_chegada, horario_saida)
+        presenca = Presenca(dia=dia, horario_chegada=horario_chegada, horario_saida=horario_saida)
         db.session.add (presenca)
         db.session.commit()
 

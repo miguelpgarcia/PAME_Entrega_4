@@ -23,7 +23,7 @@ class FuncionariosCreate (MethodView):
             return {'error':'tipo invalido'}
 
 
-        funcionario = Funcionario(nome, cpf, idade, email)
+        funcionario = Funcionario(nome=nome, cpf=cpf, idade=idade, email=email)
         db.session.add (funcionario)
         db.session.commit()
 
