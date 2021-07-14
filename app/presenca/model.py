@@ -1,4 +1,3 @@
-from sqlalchemy.orm import dynamic_loader
 from app.extensions import db
 
 class Presenca (db.Model):
@@ -11,9 +10,9 @@ class Presenca (db.Model):
     funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
 
     def json(self):
-        return {'dia'= self.dia,
-        'horario_chegada'=self.horario_chegada
-        'horario_saida'=self.horario_saida
+        return {'dia':self.dia,
+        'horario_chegada':self.horario_chegada,
+        'horario_saida':self.horario_saida
         }
  
 
