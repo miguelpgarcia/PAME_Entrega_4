@@ -2,7 +2,7 @@ from app.extensions import db
 
 class Presenca (db.Model):
     __tablename__ = 'presenca'
-    dia = db.Column(db.Integer, primary_key = True)
+    dia = db.Column(db.String, nullable = False)
     id = db.Column(db.Integer, primary_key = True)
     horario_chegada = db.Column(db.String(20), nullable = False)
     horario_saida = db.Column(db.String(20), nullable = False)
