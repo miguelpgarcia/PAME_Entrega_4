@@ -10,7 +10,7 @@ class Funcionario (db.Model):
     cpf = db.Column(db.String(40), nullable = False)
     idade = db.Column(db.Integer, nullable = False)
     
-    presença = db.relationship ('Presença', backref = 'funcionario')
+    presenca = db.relationship ('Presenca', backref = 'funcionario')
 
     def json(self):
         return {'nome': self.nome,
