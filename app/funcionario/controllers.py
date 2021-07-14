@@ -6,7 +6,7 @@ from flask.views import MethodView
 
 
 
-class FuncionariosCreate (MethodView):
+class FuncionariosCreate (MethodView): #/funcionario/create
     def get(self):
         funcionario=Funcionario.query.all()
         return jsonify([funcionario.json() for funcionario in funcionario]), 200
@@ -29,7 +29,7 @@ class FuncionariosCreate (MethodView):
 
         return funcionario.json(), 200
 
-class FuncionariosDetails(MethodView):
+class FuncionariosDetails(MethodView): #/funcionario/details/<int:id>
     def get(self, id):
         funcionario = Funcionario.query.get_or_404(id)
         

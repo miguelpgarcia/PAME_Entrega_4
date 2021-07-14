@@ -12,7 +12,8 @@ class Presenca (db.Model):
     def json(self):
         return {'dia':self.dia,
         'horario_chegada':self.horario_chegada,
-        'horario_saida':self.horario_saida
+        'horario_saida':self.horario_saida,
+        'funcionario_id':self.funcionario_id
         }
  
 

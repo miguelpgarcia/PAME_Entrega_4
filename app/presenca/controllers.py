@@ -17,12 +17,13 @@ class PresencaCreate (MethodView):
         dia = dados.get('dia')
         horario_chegada = dados.get('horario_chegada')
         horario_saida = dados.get ('horario_saida')
+        funcionario_id = dados.get ('funcionario_id')
 
         if not isinstance (dia,str):
             return {'error':'tipo invalido'}
 
 
-        presenca = Presenca(dia=dia, horario_chegada=horario_chegada, horario_saida=horario_saida)
+        presenca = Presenca(dia=dia, horario_chegada=horario_chegada, horario_saida=horario_saida, funcionario_id= funcionario_id)
         db.session.add (presenca)
         db.session.commit()
 
@@ -41,6 +42,7 @@ class PresencaDetails(MethodView):
         dia = dados.get('dia')
         horario_chegada = dados.get('horario_chegada')
         horario_saida = dados.get ('horario_saida')
+        funcionario_id = dados.get ('funcionario_id')
 
        
        
@@ -48,6 +50,7 @@ class PresencaDetails(MethodView):
         presenca.dia = dia
         presenca.horario_chegada = horario_chegada
         presenca.horario_saida = horario_saida
+        presenca.funcionario_id = funcionario_id
        
 
 
@@ -62,12 +65,14 @@ class PresencaDetails(MethodView):
         dia = dados.get('dia', presenca.dia)
         horario_chegada = dados.get('horario_chegada', presenca.horario_chegada)
         horario_saida = dados.get ('horario_saida', presenca.horario_saida)
+        funcionario_id = dados.get ('funcionario_id', presenca.funcionario_id)
 
         
 
         presenca.dia = dia
         presenca.horario_chegada = horario_chegada
         presenca.horario_saida = horario_saida
+        presenca.funcionario_id = funcionario_id
         db.session.commit()
 
         return presenca.json(), 200
