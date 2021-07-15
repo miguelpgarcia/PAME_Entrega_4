@@ -19,10 +19,16 @@ class FuncionariosCreate (MethodView): #/funcionario/create
         idade = dados.get ('idade')
         email = dados.get ('email')
         senha = dados.get ('senha')
+
+        funcionario = Funcionario.query.filter_by(email = email).first()
+
+        if funcionario:
+            return {'error':'email já cadastrado'}, 400
+
     
 
-        if not isinstance (nome,str):
-            return {'error':'tipo invalido'}
+        if not isinstance (nome,str) or not isinstance (idade, int):
+            return {'error':'tipo invalido'}, 400
 
         senha_hash = bcrypt.hashpw(senha.encode(), bcrypt.gensalt())
 
@@ -83,6 +89,21 @@ class FuncionariosDetails(MethodView): #/funcionario/details/<int:id>
         db.session.delete(funcionario)
         db.session.commit()
         return funcionario.json(), 200
+
+class FuncionarioLogin(MethodView):
+    def post(self):
+        dados = request.json 
+        email = dados.get ('email')
+        senha = dados.get ('senha')
+        
+        funcionario = Funcionario.query.filter_by(email = email).first()
+        if (not funcionario) or (not bcrypt.checkpw(senha.encode(), funcionario.senha_hash)):
+            return {'error':'Email ou senha inválida'}, 400
+        
+        return {"msg":"login aceito"}, 200
+
+
+
 
 
 
