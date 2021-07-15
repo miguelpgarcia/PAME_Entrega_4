@@ -2,6 +2,8 @@ from app.funcionario.model import Funcionario
 from flask import request, jsonify
 from app.extensions import db
 from flask.views import MethodView 
+from flask_jwt_extended import create_access_token, jwt_required
+
 import bcrypt
 
 
@@ -40,6 +42,7 @@ class FuncionariosCreate (MethodView): #/funcionario/create
         return funcionario.json(), 200
 
 class FuncionariosDetails(MethodView): #/funcionario/details/<int:id>
+    decorators = [jwt_required()]
     def get(self, id):
         funcionario = Funcionario.query.get_or_404(id)
         
@@ -100,7 +103,9 @@ class FuncionarioLogin(MethodView):
         if (not funcionario) or (not bcrypt.checkpw(senha.encode(), funcionario.senha_hash)):
             return {'error':'Email ou senha inválida'}, 400
         
-        return {"msg":"login aceito"}, 200
+        token = create_access_token(identity = funcionario.id)
+        
+        return {"token" : token}, 200
 
 
 
