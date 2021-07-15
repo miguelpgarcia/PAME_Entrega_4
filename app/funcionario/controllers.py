@@ -2,7 +2,7 @@ from app.funcionario.model import Funcionario
 from flask import request, jsonify
 from app.extensions import db
 from flask.views import MethodView 
-
+import bcrypt
 
 
 
@@ -18,12 +18,16 @@ class FuncionariosCreate (MethodView): #/funcionario/create
         cpf = dados.get ('cpf')
         idade = dados.get ('idade')
         email = dados.get ('email')
+        senha = dados.get ('senha')
+    
 
         if not isinstance (nome,str):
             return {'error':'tipo invalido'}
 
+        senha_hash = bcrypt.hashpw(senha.encode(), bcrypt.gensalt())
 
-        funcionario = Funcionario(nome=nome, cpf=cpf, idade=idade, email=email)
+
+        funcionario = Funcionario(nome=nome, cpf=cpf, idade=idade, email=email, senha_hash=senha_hash)
         db.session.add (funcionario)
         db.session.commit()
 
