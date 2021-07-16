@@ -43,7 +43,6 @@ class FuncionariosCreate (MethodView): #/funcionario/create
 
 class FuncionariosDetails(MethodView): #/funcionario/details/<int:id>
     decorators = [jwt_required()]
-    @jwt_required
     def get(self, id):
         if (get_jwt_identity() != id):
             return {'error':'Usuario não permitido'}, 400
